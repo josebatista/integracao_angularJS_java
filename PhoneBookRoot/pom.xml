@@ -47,4 +47,7 @@
 	</properties>
 
 
+	<modules>
+		<module>PhoneBookCore</module>
+	</modules>
 </project>
