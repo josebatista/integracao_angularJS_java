@@ -3,6 +3,8 @@
 	<persistence-unit name="PhoneBookCore" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:/postgresDS</jta-data-source>
+		<class>com.teste.phonebook.entity.Contact</class>
+		<class>com.teste.phonebook.entity.Operator</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
