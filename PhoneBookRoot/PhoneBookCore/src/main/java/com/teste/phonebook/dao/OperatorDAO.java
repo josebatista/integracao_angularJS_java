@@ -3,11 +3,13 @@ package com.teste.phonebook.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.teste.phonebook.entity.Operator;
 
+@ApplicationScoped
 public class OperatorDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

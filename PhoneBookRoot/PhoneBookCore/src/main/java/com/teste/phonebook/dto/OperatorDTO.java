@@ -108,7 +108,9 @@ public class OperatorDTO implements Serializable {
 		if (listContactDTO != null) {
 			List<Contact> listContact = new ArrayList<Contact>();
 			for (ContactDTO contactDTO : listContactDTO) {
-				listContact.add(ContactDTO.toContact(contactDTO));
+				Contact c = new Contact();
+				c.setId(contactDTO.getId());
+				listContact.add(c);
 			}
 			o.setContacts(listContact);
 		}
@@ -127,7 +129,9 @@ public class OperatorDTO implements Serializable {
 		if (listContact != null) {
 			List<ContactDTO> listContactDTO = new ArrayList<ContactDTO>();
 			for (Contact contact : listContact) {
-				listContactDTO.add(ContactDTO.fromContact(contact));
+				ContactDTO c = new ContactDTO();
+				c.setId(contact.getId());
+				listContactDTO.add(c);
 			}
 			dto.setContacts(listContactDTO);
 		}
