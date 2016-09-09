@@ -1,46 +1,22 @@
-package com.teste.phonebook.entity;
+package com.teste.phonebook.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.teste.phonebook.entity.Contact;
+import com.teste.phonebook.entity.Operator;
 
-@Entity
-@Table(name = "contact", schema = "phonebook")
-public class Contact implements Serializable {
+public class ContactDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "serial")
 	private String serial;
-
-	@Column(name = "name")
 	private String name;
-
-	@Column(name = "telephone")
 	private String phone;
-
-	@Column(name = "data")
 	private LocalDateTime data;
-
-	@Column(name = "status")
 	private int status;
-
-	@ManyToOne
-	@JoinColumn(name = "operator_id")
-	private Operator operator;
+	private OperatorDTO operator;
 
 	public Long getId() {
 		return id;
@@ -90,11 +66,11 @@ public class Contact implements Serializable {
 		this.status = status;
 	}
 
-	public Operator getOperator() {
+	public OperatorDTO getOperator() {
 		return operator;
 	}
 
-	public void setOperator(Operator operator) {
+	public void setOperator(OperatorDTO operator) {
 		this.operator = operator;
 	}
 
@@ -114,7 +90,7 @@ public class Contact implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Contact other = (Contact) obj;
+		ContactDTO other = (ContactDTO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -125,8 +101,40 @@ public class Contact implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Contact [id=" + id + ", serial=" + serial + ", name=" + name + ", phone=" + phone + ", data=" + data
+		return "ContactDTO [id=" + id + ", serial=" + serial + ", name=" + name + ", phone=" + phone + ", data=" + data
 				+ ", status=" + status + ", operator=" + operator + "]";
+	}
+
+	public static Contact toContact(ContactDTO dto) {
+		Contact c = new Contact();
+		c.setId(dto.getId());
+		c.setSerial(dto.getSerial());
+		c.setName(dto.getName());
+		c.setPhone(dto.getPhone());
+		c.setData(dto.getData());
+		c.setStatus(dto.getStatus());
+		OperatorDTO o = dto.getOperator();
+		if (o != null) {
+			c.setOperator(OperatorDTO.toOperator(o));
+		}
+
+		return c;
+	}
+
+	public static ContactDTO fromContact(Contact c) {
+		ContactDTO dto = new ContactDTO();
+		dto.setId(c.getId());
+		dto.setSerial(c.getSerial());
+		dto.setName(c.getName());
+		dto.setPhone(c.getPhone());
+		dto.setData(c.getData());
+		dto.setStatus(c.getStatus());
+		Operator o = c.getOperator();
+		if (o != null) {
+			dto.setOperator(OperatorDTO.fromOperator(o));
+		}
+
+		return dto;
 	}
 
 }
