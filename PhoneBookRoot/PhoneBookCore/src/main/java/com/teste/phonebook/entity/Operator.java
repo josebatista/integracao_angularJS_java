@@ -37,6 +37,13 @@ public class Operator implements Serializable {
 	@OneToMany(mappedBy = "operator")
 	private List<Contact> contacts;
 
+	public Operator() {
+	}
+
+	public Operator(Long id) {
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}
