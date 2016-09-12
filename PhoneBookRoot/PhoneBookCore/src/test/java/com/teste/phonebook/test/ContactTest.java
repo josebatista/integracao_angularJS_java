@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -16,7 +15,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.teste.phonebook.bo.ContactBO;
+import com.teste.phonebook.bo.IContactBO;
 import com.teste.phonebook.dao.ContactDAO;
+import com.teste.phonebook.dto.ContactDTO;
+import com.teste.phonebook.dto.OperatorDTO;
 import com.teste.phonebook.entity.Contact;
 import com.teste.phonebook.entity.Operator;
 import com.teste.phonebook.util.PersistenceUtil;
@@ -27,37 +30,32 @@ public class ContactTest {
 	@Deployment
 	public static JavaArchive createDeploy() {
 		return ShrinkWrap.create(JavaArchive.class, "ContactTest.jar")
-				.addClasses(Contact.class, ContactDAO.class, Operator.class, PersistenceUtil.class)
+				.addClasses(Contact.class, ContactDAO.class, ContactDTO.class, IContactBO.class, ContactBO.class,
+						Operator.class, OperatorDTO.class, PersistenceUtil.class)
 				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsResource("test-persistence.xml", "META-INF/persistence.xml");
 	}
 
 	@Inject
-	private ContactDAO dao;
-
-	@Inject
-	private UserTransaction tx;
+	private IContactBO cBO;
 
 	@Test
 	@InSequence(1)
 	public void testOne() {
-		Contact c = new Contact();
+		ContactDTO c = new ContactDTO();
 		c.setSerial("* H/7");
 		c.setName("Sandra ELENA");
 		c.setPhone("4799993333");
 		c.setData(LocalDateTime.now());
-		c.setOperator(new Operator(2L));
+		c.setOperator(new OperatorDTO(2L));
 		c.setStatus(1);
 
 		try {
-			this.tx.begin();
-			this.dao.save(c);
-			this.tx.commit();
+			this.cBO.save(c);
 			Assert.assertTrue("Success", true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				this.tx.rollback();
 				Assert.fail("Fail!");
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -68,14 +66,11 @@ public class ContactTest {
 	@Test
 	@InSequence(2)
 	public void testTwo() {
-		List<Contact> list = null;
+		List<ContactDTO> list = null;
 		try {
-			this.tx.begin();
-			list = this.dao.loadAll();
-			this.tx.commit();
+			list = this.cBO.listAll();
 		} catch (Exception e) {
 			try {
-				this.tx.rollback();
 				e.printStackTrace();
 			} catch (Exception e1) {
 				e1.printStackTrace();

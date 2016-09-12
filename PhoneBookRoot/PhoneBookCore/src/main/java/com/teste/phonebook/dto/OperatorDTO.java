@@ -18,6 +18,13 @@ public class OperatorDTO implements Serializable {
 	private double value;
 	private List<ContactDTO> contacts;
 
+	public OperatorDTO() {
+	}
+
+	public OperatorDTO(long id) {
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}
