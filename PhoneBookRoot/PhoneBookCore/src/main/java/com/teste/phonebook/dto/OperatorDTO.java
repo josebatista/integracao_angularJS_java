@@ -138,6 +138,11 @@ public class OperatorDTO implements Serializable {
 			for (Contact contact : listContact) {
 				ContactDTO c = new ContactDTO();
 				c.setId(contact.getId());
+//				c.setSerial(contact.getSerial());
+//				c.setName(contact.getName());
+//				c.setPhone(contact.getPhone());
+//				c.setData(contact.getData());
+//				c.setStatus(contact.getStatus());
 				listContactDTO.add(c);
 			}
 			dto.setContacts(listContactDTO);

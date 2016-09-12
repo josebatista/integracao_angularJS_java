@@ -49,5 +49,6 @@
 
 	<modules>
 		<module>PhoneBookCore</module>
+		<module>PhoneBookWebService</module>
 	</modules>
 </project>
